@@ -1,7 +1,9 @@
+![](https://drivendata.s3.amazonaws.com/images/drivendata.png)
+
 DrivenData Submission Validator
 ===============================
 
-Simple tool to run some sanity checks on submissions for DrivenData competitions before uploading. Designed to catch some of the most common errors with submission files, such as:
+Simple tool to run some sanity checks on submissions for [DrivenData](http://www.drivendata.org/) competitions before uploading. Designed to catch some of the most common errors with submission files, such as:
 
   * Mismatched headers
   * Wrong number of rows
