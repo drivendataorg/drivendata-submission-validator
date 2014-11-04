@@ -11,13 +11,32 @@ Simple tool to run some sanity checks on submissions for [DrivenData](http://www
   * Wrong data types
   * Unexpected NaNs
 
+Requirements
+------------
+
+There are two requirements for the validator:
+
+ * Python: https://wiki.python.org/moin/BeginnersGuide/Download
+ * `pip`: install with `python get-pip.py`
+
+
+Installation
+------------
+
+You can install the validator using `pip` directly from github. Just run the command below:
+
+```
+pip install git+https://github.com/drivendataorg/drivendata-submission-validator.git
+```
+
+The command installs the validator to your `site-packages` directory so that you can import it with `import drivendata_validator` or run it from the command line with `dd-sub-valid`.
 
 Basic usage
 -----------
 
 Here is the basic usage:
 
-    python drivendata_validator.py <your answers file> <submission format file>
+    dd-sub-valid <your answers file> <submission format file>
 
 The first argument is your submission that you're getting ready to upload, and the second argument is the submission format (which you downloaded from us).
 
@@ -27,7 +46,7 @@ Passing keyword arguments (if necessary)
 
 There is an optional third argument in case we need to pass special keyword arguments to `pandas`:
 
-    python drivendata_validator.py <your answers file> <submission format file> <kwargs json file>
+    dd-sub-valid <your answers file> <submission format file> <kwargs json file>
 
 If this JSON file is necessary, it will be provided in the same place we put the submission format.
 
@@ -55,7 +74,7 @@ Perhaps we've data-scienced everything with a 500 layer convolutional neural net
 
 We can verify that it's good to go:
 
-    $ python drivendata_validator.py examples/example_good_submission.csv examples/example_submission_format.csv 
+    $ dd-sub-valid examples/example_good_submission.csv examples/example_submission_format.csv 
     Checking all of your ducks to see if they are in a row...
     
     Nice work, amig[a|o] Your submission is valid. Submit it on www.drivendata.org!
@@ -71,9 +90,29 @@ But what if something is wrong, such as in the following example? (Hint: the hea
     
 The validator will give us an informative heads up about the problem:
 
-    $ python drivendata_validator.py examples/bad_submission.csv examples/submission_format.csv 
+    $ dd-sub-valid examples/bad_submission.csv examples/submission_format.csv 
     Checking all of your ducks to see if they are in a row...
     
     Caught anticipated error. Fix the below and retry.
     --------------------------------------------------
     CSV Headers do not match. Submission requires that first line is: "person,years.old" You submitted: "person,age"
+
+
+Using the validator in your workflow
+-------------
+
+You can also use the validator as part of your python workflow by importing it. The usage is the same as at the commandline:
+
+```python
+from drivendata_validator import DrivenDataValidator
+
+# no parameters unless we have a read_csv kwargs file
+v = DrivenDataValidator()
+
+
+v.validate('examples/submission_format.csv', 'examples/bad_submission.csv')
+```
+
+The above raises a `DrivenDataValidationError`. If your submission passes, it will return a pandas dataframe of your submission.
+
+
