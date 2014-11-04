@@ -93,9 +93,8 @@ class DrivenDataValidator(object):
 
         return submission_df
 
-
-if __name__ == "__main__":  # pragma: no cover (NB: tested with subprocess, so we don't see the coverage)
-    # args are submission format, submission file, [optional] kwargs_json
+def main():
+# args are submission format, submission file, [optional] kwargs_json
     if len(sys.argv) not in [3, 4]:
         print "Usage: python DrivenDataValidator.py <path_to_submission_format_file> " \
               "<path_to_your_submission_file> [<path_to_pandas_read_csv_kwargs_json>]"
@@ -124,3 +123,6 @@ if __name__ == "__main__":  # pragma: no cover (NB: tested with subprocess, so w
 
             # re-raise so y'all can read the trace
             raise
+
+if __name__ == "__main__":  # pragma: no cover (NB: tested with subprocess, so we don't see the coverage)
+    main()
