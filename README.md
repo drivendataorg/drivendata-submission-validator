@@ -36,7 +36,7 @@ Basic usage
 
 Here is the basic usage:
 
-    dd-sub-valid <your answers file> <submission format file>
+    dd-sub-valid <submission format file> <your answers file>
 
 The first argument is your submission that you're getting ready to upload, and the second argument is the submission format (which you downloaded from us).
 
@@ -46,7 +46,7 @@ Passing keyword arguments (if necessary)
 
 There is an optional third argument in case we need to pass special keyword arguments to `pandas`:
 
-    dd-sub-valid <your answers file> <submission format file> <kwargs json file>
+    dd-sub-valid <submission format file> <your answers file> <kwargs json file>
 
 If this JSON file is necessary, it will be provided in the same place we put the submission format.
 
@@ -74,7 +74,7 @@ Perhaps we've data-scienced everything with a 500 layer convolutional neural net
 
 We can verify that it's good to go:
 
-    $ dd-sub-valid examples/example_good_submission.csv examples/example_submission_format.csv 
+    $ dd-sub-valid examples/example_submission_format.csv examples/example_good_submission.csv
     Checking all of your ducks to see if they are in a row...
     
     Nice work, amig[a|o] Your submission is valid. Submit it on www.drivendata.org!
@@ -90,12 +90,12 @@ But what if something is wrong, such as in the following example? (Hint: the hea
     
 The validator will give us an informative heads up about the problem:
 
-    $ dd-sub-valid examples/bad_submission.csv examples/submission_format.csv 
+    $ dd-sub-valid examples/submission_format.csv examples/bad_submission.csv 
     Checking all of your ducks to see if they are in a row...
     
     Caught anticipated error. Fix the below and retry.
     --------------------------------------------------
-    CSV Headers do not match. Submission requires that first line is: "person,years.old" You submitted: "person,age"
+    CSV Headers do not match. Submission requires that first line is: "person,age" You submitted: "person,years.old"
 
 
 Using the validator in your workflow
