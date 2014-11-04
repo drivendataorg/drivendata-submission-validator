@@ -93,6 +93,18 @@ class DrivenDataValidator(object):
 
         return submission_df
 
+    def is_valid(self, format_path, submission_path, print_errors=False):
+        """ A wrapper around validate to return True/False
+        """
+        try:
+            self.validate(format_path, submission_path)
+            return True
+        except Exception as e:
+            if print_errors:
+                print e.message
+
+            return False
+
 def main():
 # args are submission format, submission file, [optional] kwargs_json
     if len(sys.argv) not in [3, 4]:

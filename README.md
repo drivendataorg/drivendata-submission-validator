@@ -108,11 +108,26 @@ from drivendata_validator import DrivenDataValidator
 
 # no parameters unless we have a read_csv kwargs file
 v = DrivenDataValidator()
+```
 
+There are two methods you can use on the `DrivenDataValidator` object. The first, `validate`, raises exceptions if there is anything wrong with the submission.
 
+```python
 v.validate('examples/submission_format.csv', 'examples/bad_submission.csv')
 ```
 
 The above raises a `DrivenDataValidationError`. If your submission passes, it will return a pandas dataframe of your submission.
+
+The second method is `is_valid` and it returns a `bool` so you can just use it for pass/fail. It calls `validate` internally. Optionally, it has a `print_errors` kwarg so that you can print the exception messages on failure.
+
+```python
+if v.is_valid('examples/submission_format.csv', 'examples/bad_submission.csv'):
+    print "I am awesome."
+else:
+    print "I am not so cool."
+```
+
+The above prints "I am not so cool." If we also passed the parameter `print_errors=True`, then it would also print the exception method.
+
 
 
