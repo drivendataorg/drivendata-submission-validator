@@ -36,7 +36,7 @@ class DrivenDataValidator(object):
                 "skipinitialspace": True
             }
 
-    def validate(self, format_path, submission_path):
+    def validate(self, format_path, submission_path, skip_validating_dataset=False):
         """ Validates that a submission is in the proper format
 
         :param format_path: a string that is the path to the submission format file
@@ -46,7 +46,20 @@ class DrivenDataValidator(object):
 
         # load the data
         format_df = pd.read_csv(format_path, **self.validation_kwargs)
+
+        # automatically validate and return the dataframe if we're comparing something to itself.
+        # Refs:
+        #  - Aristotle's law of identity, 'Metaphysics', 1st century CE
+        #  - "A is A." - 'Atlas Shrugged', Ayn Rand, 1957  <- lulz
+        #
+        if format_path == submission_path:
+            return format_df
+
         submission_df = pd.read_csv(submission_path, **self.validation_kwargs)
+
+        # just return the unadulterated df if we know this is what we're after
+        if skip_validating_dataset:
+            return submission_df
 
         # verify that the headers match
         if np.any(format_df.columns.values != submission_df.columns.values):
@@ -80,13 +93,13 @@ class DrivenDataValidator(object):
             raise DrivenDataValidationError(error_str.format(format_df.dtypes.values.tolist(),
                                                              submission_df.dtypes.values.tolist()))
 
-        # verify that there are no nans if we don't expect any nans
-        if np.isnan(submission_df.values).any() and not np.isnan(format_df.values).any():
+        # verify that there are no nans if we don't expect any nans (pd.isnull handles all dtypes)
+        if pd.isnull(submission_df.values).any() and not pd.isnull(format_df.values).any():
             error_str = 'Your submission contains NaNs or blanks, which are not expected. Please change these to ' \
                         'numeric predictions. See ids: {}'
 
             # figure out which rows contain nans
-            nan_mask = np.isnan(submission_df.values).astype(int).sum(axis=1).astype(bool)
+            nan_mask = pd.isnull(submission_df.values).astype(int).sum(axis=1).astype(bool)
             nan_ids = submission_df.index.values[nan_mask]
 
             raise DrivenDataValidationError(error_str.format(nan_ids.tolist()))
