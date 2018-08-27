@@ -62,7 +62,7 @@ class DrivenDataValidator(object):
             return submission_df
 
         # verify that the headers match
-        if np.any(format_df.columns.values != submission_df.columns.values):
+        if format_df.columns.values.tolist() != submission_df.columns.values.tolist():
             error_str = 'CSV Headers do not match. Submission requires that first line is: "{}" You submitted: "{}" '
 
             # get all of the headers
