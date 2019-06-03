@@ -14,7 +14,7 @@ setup(
 
     entry_points={
     'console_scripts': [
-        'dd-sub-valid=drivendata_validator:main',
+        'dd-sub-valid=drivendata_validator.drivendata_validator:main',
     ]},
     
     install_requires=[

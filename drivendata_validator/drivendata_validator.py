@@ -1,4 +1,5 @@
 #!/usr/bin/python2
+from __future__ import print_function
 
 import sys
 import json
@@ -114,18 +115,18 @@ class DrivenDataValidator(object):
             return True
         except Exception as e:
             if print_errors:
-                print e.message
+                print(e)
 
             return False
 
 def main():
 # args are submission format, submission file, [optional] kwargs_json
     if len(sys.argv) not in [3, 4]:
-        print "Usage: python DrivenDataValidator.py <path_to_submission_format_file> " \
-              "<path_to_your_submission_file> [<path_to_pandas_read_csv_kwargs_json>]"
+        print("Usage: python DrivenDataValidator.py <path_to_submission_format_file> "
+              "<path_to_your_submission_file> [<path_to_pandas_read_csv_kwargs_json>]")
 
     else:
-        print "Checking all of your ducks to see if they are in a row...\n"
+        print("Checking all of your ducks to see if they are in a row...\n")
 
         read_csv_kwargs = {}
         if len(sys.argv) == 4:
@@ -135,16 +136,16 @@ def main():
         try:
             validator = DrivenDataValidator(**read_csv_kwargs)
             validator.validate(sys.argv[1], sys.argv[2])
-            print "Nice work, amig[a|o] Your submission is valid. Submit it on www.drivendata.org!"
+            print("Nice work, amig[a|o] Your submission is valid. Submit it on www.drivendata.org!")
 
         except DrivenDataValidationError as anticipated_error:
-            print "Caught anticipated error. Fix the below and retry."
-            print "--------------------------------------------------"
-            print anticipated_error.message
+            print("Caught anticipated error. Fix the below and retry.")
+            print("--------------------------------------------------")
+            print(anticipated_error)
 
         except Exception as e:
-            print "Unanticipated error. What have you done??"
-            print "-----------------------------------------"
+            print("Unanticipated error. What have you done??")
+            print("-----------------------------------------")
 
             # re-raise so y'all can read the trace
             raise
